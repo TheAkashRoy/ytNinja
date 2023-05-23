@@ -3,6 +3,7 @@ from flask import Flask, render_template,Response
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import isodate
+import datetime
 
 app = Flask(__name__)
 
@@ -38,12 +39,13 @@ def get_playlist_info(playlist_id):
     for i in (video_list):
         time+=videoDuration(i)[0]
     ans = [] # [ total_time | at 1.25x | at 1.5x | at 2x | Average duration ]
-    ans.append(time)
-    ans.append(time/1.25)
-    ans.append(time/1.5)
-    ans.append(time/1.75)
-    ans.append(time/2)
-    ans.append(time/len(video_list))
+    
+    ans.append(str(datetime.timedelta(seconds=time)))
+    ans.append(str(datetime.timedelta(seconds=time/1.25)))
+    ans.append(str(datetime.timedelta(seconds=time/1.5)))
+    ans.append(str(datetime.timedelta(seconds=time/1.75)))
+    ans.append(str(datetime.timedelta(seconds=time/2)))
+    ans.append(str(datetime.timedelta(seconds=time/len(video_list))))
     return ans
 
 
