@@ -1,21 +1,11 @@
 import os
-from flask import Flask, render_template,Response
+# from flask import Flask, render_template,Response
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 import isodate
 import datetime
-
-app = Flask(__name__)
-
-load_dotenv()
-api_key = os.getenv('YOUTUBE_API_KEY')
-# print(api_key)
-
 youtube = build('youtube', 'v3', developerKey=api_key)
 
-
-
-@app.route('/hey/<playlist_id>')
 def get_playlist_info(playlist_id):
     video_list=[]
     next_page_token = None
@@ -48,8 +38,6 @@ def get_playlist_info(playlist_id):
     ans.append(str(datetime.timedelta(seconds=time/len(video_list))))
     return ans
 
-
-@app.route('/may/<id>')
 def videoDuration(id):
     request = youtube.videos().list(
         part="contentDetails",
@@ -61,7 +49,16 @@ def videoDuration(id):
     durationObj = isodate.parse_duration(duration)
     totalSeconds = durationObj.total_seconds()
     return [totalSeconds]
+import streamlit as st
 
+# st.set_page_config(layout="wide")
+# st.markdown("<h1 style='text-align: center;'>ytNinja</h1>", unsafe_allow_html=True)
+st.title("ytNinja")
+st.subheader("Youtube playlist time calculator")
+# st.title("ytNinja - Calcualte YouTube playlist lengths")
 
-if __name__=="__main__":
-    app.run(debug=True)
+link = st.text_input("Enter the Playlist link here")
+ans = get_playlist_info(link)
+
+print(ans)
+    
