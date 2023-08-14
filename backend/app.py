@@ -38,8 +38,8 @@ def get_playlist_info(playlist_id):
     time=0
     for i in (video_list):
         time+=videoDuration(i)[0]
-    ans = [] # [ total_time | at 1.25x | at 1.5x | at 2x | Average duration ]
-    
+    ans = []
+    # [ total_time | at 1.25x | at 1.5x | at 2x | Average duration ]
     ans.append(str(datetime.timedelta(seconds=time)))
     ans.append(str(datetime.timedelta(seconds=time/1.25)))
     ans.append(str(datetime.timedelta(seconds=time/1.5)))
